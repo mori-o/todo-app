@@ -10,7 +10,7 @@ public class TodoListTest {
         TodoList t = new TodoList();
         t.add(" task1 ");
         assertEquals(1, t.size());
-        assertEquals("task1", t.getItems().getFirst());
+        assertEquals("task1", t.getItems().getFirst().text);
     }
 
     @Test
