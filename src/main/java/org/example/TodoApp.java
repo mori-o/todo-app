@@ -7,7 +7,7 @@ public class TodoApp {
     public static void main(String[] args) {
         TodoList list = new TodoList();
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Simple Todo CLI.\nCommands: add <task>, remove <index>, list, exit");
+        System.out.println("Simple Todo CLI.\nCommands: add <task>, remove <index>, done <index>, search <string>, list, clear, exit");
         while (true) {
             System.out.print("> ");
             if (!scanner.hasNextLine()) break;
@@ -39,12 +39,34 @@ public class TodoApp {
                         System.out.println("Usage: remove <index>");
                     }
                     break;
+                case "done":
+                    if (parts.length > 1) {
+                        try {
+                            int idx = Integer.parseInt(parts[1]);
+                            if (list.done(idx)) System.out.println("Done.");
+                            else System.out.println("Index out of range.");
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid index.");
+                        }
+                    }
+                    break;
+                case "search":
+                    if (parts.length > 1) {
+                        String searchable = parts[1].trim().toLowerCase();
+                        if (list.search(searchable)) System.out.println("Found.");
+                        else System.out.println("Not found.");
+                    }
+                    break;
                 case "list":
-                    List<String> allItems = list.getItems();
+                    List<Task> allItems = list.getItems();
                     for (int i = 0; i < allItems.size(); i++) {
                         System.out.println(i + ": " + allItems.get(i));
                     }
                     if (allItems.isEmpty()) System.out.println("(empty)");
+                    break;
+                case "clear":
+                    list.clear();
+                    System.out.println("List cleared.");
                     break;
                 case "exit":
                     System.out.println("Bye!");
